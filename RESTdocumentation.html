@@ -1,0 +1,400 @@
+<!--suppress HtmlUnknownTarget -->
+<!--suppress HtmlPresentationalElement -->
+<p>This is the REST service for janpieterk/gemeentekaart-core.</p>
+
+<h2>Summary</h2>
+
+<p>This service can be used to create a choropleth map of either the municipalities of The Netherlands (borders as of
+    2007, 443 municipalities), the
+    municipalities of Flanders (308 municipalities), the municipalities of The Netherlands and Flanders combined, the 40
+    COROP areas of The Netherlands (see <a
+            href="http://nl.wikipedia.org/w/index.php?title=COROP&oldid=31809700">COROP</a> (Dutch) or <a
+            href="http://en.wikipedia.org/w/index.php?title=COROP&oldid=482861432">COROP</a> (English)), the twelve
+    provinces
+    of The Netherlands, or the 28 dialect areas of Daan/Blok (1969) mapped on municipality borders. Areas can be
+    assigned colors, typically to denote the relative frequency of some phenomenon.
+    Some predefined combinations are also possible, at the moment: municipalities with COROP areas, municipalities
+    with provinces, municipalities with dialect areas.
+</p>
+
+<p>Maps can be requested via GET or POST requests. If the only parameters are key-value pairs, they can go either in the
+    request string (GET request) or in a JSON document in the request body (POST request). If there are structured
+    parameters a POST request with a JSON request body is advisable. Request string parameters can be
+    combined with a JSON request body in a POST request. If the same parameters are in the request string and in the
+    JSON
+    document, the parameters from the request string have precedence over the ones in the request body.</p>
+
+<h2>Examples</h2>
+<h3>GET requests (clickable)</h3>
+Map of the municipalities, default size and format: <a href="##KAART_URL##?type=municipalities">##KAART_URL##?type=municipalities</a>
+<br/>Map of the COROP areas, default size and format: <a
+        href="##KAART_URL##?type=corop">##KAART_URL##?type=corop</a><br/>
+Map of the provinces, default size and format: <a href="##KAART_URL##?type=provinces">##KAART_URL##?type=provinces</a>
+<br/>
+Map of the dialect areas, default size and format: <a href="##KAART_URL##?type=dialectareas">##KAART_URL##?type=dialectareas</a>
+<br/>
+Map of the municipalities combined with the COROP areas: <a
+        href="##KAART_URL##?type=municipalities&amp;additionaldata=corop">##KAART_URL##?type=municipalities&amp;additionaldata=corop</a>
+<br/>
+Combined map of Dutch and Flemish municipalities: <a href="##KAART_URL##?type=municipalities_nl_flanders">##KAART_URL##?type=municipalities_nl_flanders</a>
+</p>
+<h3>JSON POST requests</h3>
+<p>Content-type should be <b><tt>application/json</tt></b>.</p>
+
+<p>Map of the Netherlands municipalities borders, with some municipalities highlighted.
+    Municipality codes can be obtained by adding <code>possiblemunicipalities=1</code> or <code>possibleareas=1</code>
+    to
+    the URL.<br/>
+    Obtained by POSTing the following JSON document to ##KAART_URL##?type=gemeentes&format=png&width=500:</p>
+<pre><code><span style="color: #000000;">{</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0432"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFE680"</span><span
+        style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0420"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFDD55"</span><span
+        style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0448"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFD42A"</span><span
+        style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0476"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFCC00"</span><span
+        style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0373"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#D4AA00"</span><span
+        style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0400"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#AA8800"</span><span
+        style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0366"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#806600"</span><span
+        style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0463"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFCC00"</span><span
+        style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0462"</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFEEAA"</span><span
+        style="color: #000000;">
+</span><span style="color: #000000;">}</span></code></pre>
+<p><img src="img/json_example_3.png" alt=""/></p>
+<h3>Uploading files with POST requests</h3>
+<p>Content type should be <code>multipart/form-data</code>.</p>
+<p>An alternative way to get data into the Kaart service is to upload a commma-separated file with area codes and
+    colors. For example, the municipalities map above can alse be obtained by uploading a file with the following
+    content
+    to the URL ##KAART_URL##?type=gemeentes&format=png&width=500:</p>
+<pre>
+"g_0432","#FFE680"
+"g_0420","#FFDD55"
+"g_0448","#FFD42A"
+"g_0476","#FFCC00"
+"g_0373","#D4AA00"
+"g_0400","#AA8800"
+"g_0366","#806600"
+"g_0463","#FFCC00"
+"g_0462","#FFEEAA"
+</pre>
+<p>
+    The name of the file or the field name in the form are not important. If multiple files are uploaded, only the first
+    one is parsed. The possible area codes for the choropleth
+    map types can be obtained by adding the parameter possibleareas=1 to the URL, e.g. <a
+        href="##KAART_URL##?type=dialectareas&amp;possibleareas=1">##KAART_URL##?type=dialectareas&amp;possibleareas=1</a>
+    for the dialect areas, etc.
+</p>
+<h2>Full list of possible parameters</h2>
+<p><i>Note</i> Many of the parameters below are meant for all choropleth map types. The current list of supported
+    choropleth types is: </p>
+<ul>
+    <li><code>municipalities</code> (synonymous with <code>gemeentes</code>)</li>
+    <li><code>corop</code></li>
+    <li><code>provinces</code> (synonymous with <code>provincies</code>)</li>
+    <li><code>municipalities_flanders</code></li>
+    <li><code>municipalities_nl_flanders</code></li>
+    <li><code>dialectareas</code></li>
+</ul>
+
+<table border="1">
+    <tr>
+        <th width="100">name</th>
+        <th>type</th>
+        <th>notes</th>
+    </tr>
+    <tr>
+        <td><code>additionaldata</code></td>
+        <td>string</td>
+        <td>Used to add an additional layer of data to a map. Currently only the combinations <code>type=municipalities&amp;additionaldata=corop</code>,
+            <code>type=municipalities&amp;additionaldata=provinces</code> or <code>type=dutchlanguagearea&amp;additionaldata=dialectareas</code>
+            are possible. More to follow.
+        </td>
+    </tr>
+    <tr>
+        <td><code>base64</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>, <code>on</code>, <code>true</code> or <code>yes</code>, a
+            base64-encoded string representation of the map is returned.
+        </td>
+    <tr>
+        <td><code>data</code></td>
+        <td>array, object or string</td>
+        <td>a list of area codes with either highlight colors or an object containing
+            outline, fill and strokewidth. Should generally be used in a POSTed JSON document, however simple lists can
+            be
+            appended to the GET string. Examples (see also above)
+            List of highlighted municipalities:
+            <pre><code><span style="color: #000000;">&nbsp;{</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0432"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFE680"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0420"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFDD55"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0448"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFD42A"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0476"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFCC00"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0373"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#D4AA00"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0400"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#AA8800"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0366"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#806600"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0463"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFCC00"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0462"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFEEAA"</span><span
+                    style="color: #000000;">
+</span><span style="color: #000000;">&nbsp;}</span></code></pre>
+            Draw the province of Groningen without a fill and with a red outline which is twice as wide as the default
+            linewidth for the map:
+            <pre><code>
+  <span style="color: #000000;">{</span><span style="color: #000000;">
+&nbsp;&nbsp;</span><span style="color: #0000CC;">"p_20"</span><span style="color: #000000;">&nbsp;</span><span
+                    style="color: #000000;">:</span><span style="color: #000000;">&nbsp;</span><span
+                    style="color: #000000;">{</span><span style="color: #0000CC;">"fill"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"none"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">&nbsp;</span><span
+                    style="color: #0000CC;">"outline"</span><span style="color: #000000;">&nbsp;</span><span
+                    style="color: #000000;">:</span><span style="color: #000000;">&nbsp;</span><span
+                    style="color: #FF3399;">"red"</span><span style="color: #000000;">,</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #0000CC;">"strokewidth"</span><span
+                    style="color: #000000;">:</span><span style="color: #000000;">&nbsp;</span><span
+                    style="color: #336699;">2</span><span style="color: #000000;">}</span><span style="color: #000000;">
+</span><span style="color: #000000;">}</span><span style="color: #000000;">
+</span></code></pre>
+            Colors can be the name of a color (one of the 140 HTML colors), a hexadecimal representation of the form
+            <code>#RRGGBB</code>,
+            or or a hexadecimal representation of the form <code>AABBGGRR</code>. The 'AA' (opacity) part only has an
+            effect
+            with KML maps.
+        </td>
+    </tr>
+    <tr>
+        <td><code>format</code></td>
+        <td>string</td>
+        <td><code>svg</code>, <code>png</code>, <code>gif</code>, <code>jpeg</code>, <code>kml</code> or
+            <code>json</code>.
+            <code>json</code> returns a <a href="http://geojson.org/geojson-spec.html">geoJSON</a> object.
+        </td>
+    </tr>
+    <tr>
+        <td><code>height</code></td>
+        <td>integer</td>
+        <td>height in pixels of the map. It is generally not a good idea to set the height explicitly, it is better to
+            set
+            the width and let the map calculate its own height.
+        </td>
+    </tr>
+    <tr>
+        <td><code>imagemap</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>, <code>on</code>, <code>true</code> or <code>yes</code>, a list
+            of
+            HTML &lt;area&gt; elements instead of a map image is returned. Can be used to create clickable bitmap maps.
+            Note:
+            for maps of type municipalities, imagemap results in a complete imagemap for all municipalities only if:
+            <ol>
+                <li>there are no <code>links</code> or <code>tooltips</code> set;</li>
+                <li>there are <code>links</code> or <code>tooltips</code> set and <code>interactive</code> is set to
+                    true;
+                </li>
+                <li><code>link</code> (singular) is set and <code>linkhighlightedonly</code> is not set.</li>
+            </ol>
+            In other cases you get a partial imagemap with only the areas set in <code>links</code> or
+            <code>tooltips</code>.
+        </td>
+    </tr>
+    <tr>
+        <td><code>interactive</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>, <code>on</code>, <code>true</code> or <code>yes</code>, for SVG
+            maps, onmouseover and onmouseout events to show placenames, and for bitmaps maps, area elements with title
+            and alt
+            attributes with placenames are added to all placemarks or areas.
+        </td>
+    </tr>
+    <tr>
+        <td><code>link</code></td>
+        <td>string</td>
+        <td>Template for a link to be added to area codes. %s placeholders will be replaced by either
+            the
+            area code. For maps of a bitmap format, the links will be added to the imagemap
+            of the
+            picture, for maps of format SVG or KML they will be embedded in the XML. Example: <a
+                    href="##KAART_URL##?type=municipalities&format=svg&link=http%3A%2F%2Fwww.example.com%2F%3Fcode%3D%25s">##KAART_URL##?type=municipalities&format=svg&link=http%3A%2F%2Fwww.example.com%2F%3Fcode%3D%25s</a>
+            (link = urlencoded form of http://www.example.com/?code=%s)
+            Applies to all municipalities of a map of type <code>municipalities</code> unless the parameter <code>linkhighlightedonly</code> is set to
+            true.
+        </td>
+    </tr>
+    <tr>
+        <td><code>linkhighlightedonly</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>, <code>on</code>,
+            <code>true</code> or <code>yes</code>, a link set with the <code>link</code> parameter is only added to
+            higlighted
+            municipalities which are set with the <code>data</code> parameter.
+        </td>
+    </tr>
+    <tr>
+        <td><code>links</code></td>
+        <td>object</td>
+        <td>List of links to be added to areas. Can
+            only be used in a POSTed JSON document. Example:
+            <pre><code><span style="color: #000000;">&nbsp;</span><span style="color: #000000;">{</span><span
+                    style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0462"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"http://www.example.com/something/"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0366"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span
+                    style="color: #FF3399;">"http://www.example.com/something/else/"</span><span
+                    style="color: #000000;">
+&nbsp;</span><span style="color: #000000;">}</span></code></pre>
+        </td>
+    </tr>
+    <tr>
+        <td><code>pathsfile</code></td>
+        <td>string</td>
+        <td>If it is necessary to use a non-standard file with paths in a
+            choropleth map, a filename can be given with this parameter.
+            Note that this file must exist on the server, be in the correct format and visible to (i.e. in the <code>include_path</code>
+            of)
+            the server backend code of the GemeenteKaart module.
+        </td>
+    </tr>
+    <tr>
+        <td><code>possibleareas</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>, <code>on</code>,
+            <code>true</code> or <code>yes</code>, a list (in JSON format) of possible areas (area codes plus names) is
+            returned. See <a href="##KAART_URL##?possibleareas=1&type=municipalities">##KAART_URL##?possibleareas=1&type=municipalities</a>
+            or <a href="##KAART_URL##?possibleareas=1&type=corop">##KAART_URL##?possibleareas=1&type=corop</a>. Note
+            that the
+            <code>type</code> parameter should be present also.
+        </td>
+    </tr>
+    <tr>
+        <td><code>possibleformats</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>, <code>on</code>,
+            <code>true</code> or <code>yes</code>, a list (in JSON format) of possible map formats is returned. See <a href="##KAART_URL##?possibleformats=1">##KAART_URL##?possibleformats=1</a>.
+        </td>
+    </tr>
+
+    <tr>
+        <td><code>possiblemunicipalities</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>,
+            <code>on</code>, <code>true</code> or <code>yes</code>, a list (in JSON format) of possible municipalities
+            (municipality codes plus names) is returned. This is a synonym for
+            <code>?possibleareas=1&type=municipalities</code>. Note that the <code>type</code> parameter can be left
+            out.
+        </td>
+    </tr>
+
+    <tr>
+        <td><code>possibletypes</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>, <code>on</code>,
+            <code>true</code> or <code>yes</code>, a list (in JSON format) of possible map types is returned. See <a href="##KAART_URL##?possibletypes=1">##KAART_URL##?possibletypes=1</a>.
+        </td>
+    </tr>
+
+
+    <tr>
+        <td><code>target</code></td>
+        <td>string</td>
+        <td>optional target for the link given in the <code>link</code> parameter (see above). Value of the "target"
+            attribute of the href element.
+        </td>
+    </tr>
+    <tr>
+        <td><code>tooltips</code></td>
+        <td>object</td>
+        <td>List of tooltips (informative texts) to be added to areas. Can only be
+            used in a POSTed JSON document. Example:
+            <pre><code><span style="color: #000000;">&nbsp;</span><span style="color: #000000;">{</span><span
+                    style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0462"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"informative text 1"</span><span
+                    style="color: #000000;">,</span><span style="color: #000000;">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0366"</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
+                    style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"informative text 2"</span><span
+                    style="color: #000000;">
+&nbsp;</span><span style="color: #000000;">}</span></code></pre>
+        </td>
+    </tr>
+    <tr>
+        <td><code>title</code></td>
+        <td>string</td>
+        <td>Optional title of the map, will be displayed above the map if given.</td>
+    </tr>
+    <tr>
+        <td><code>type</code></td>
+        <td>string</td>
+        <td>one of the choropleth types.</td>
+    </tr>
+    <tr>
+        <td><code>width</code></td>
+        <td>integer</td>
+        <td>width in pixels of the map. Overrides the default.</td>
+    </tr>
+</table>
+<p>
+    <small>Source of the choropleth data of the Netherlands: <a href="http://www.cbs.nl/">CBS</a> and the <i>afdeling
+        Geo-informatie van het Kadaster</i>.<br/>
+        Source of the choropleth data of Flanders: <a href="http://www.openstreetmap.org">OpenStreetMap</a>. This data
+        is &copy; OpenStreetMap contributors and licensed under the <a href="http://www.openstreetmap.org/copyright">Open
+            Data Commons Open Database License</a>.<br/>
+        The REST service uses the <a href="https://github.com/pieterb/REST">REST service PHP library</a> by Pieter van
+        Beek.
+    </small>
+</p>

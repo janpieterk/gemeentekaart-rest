@@ -1,0 +1,17 @@
+{"data" : {
+    "g_0432" : "#FFE680",
+    "g_0420" : "#FFDD55",
+    "g_0448" : "#FFD42A",
+    "g_0476" : "#FFCC00",
+    "g_0373" : "#D4AA00",
+    "g_0400" : "#AA8800",
+    "g_0366" : "#806600",
+    "g_0463" : "#FFCC00",
+    "g_0462" : "#FFEEAA"
+},
+"links" : {
+    "g_0462" : "http://www.example.com/something/",
+    "g_0366" : "http://www.example.com/something/else/"
+},
+"target" : "_blank"
+}

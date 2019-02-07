@@ -1,0 +1,6 @@
+local
+.svn
+vendor
+test/tmp/*
+.DS_Store
+.idea
