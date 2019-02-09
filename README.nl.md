@@ -36,7 +36,7 @@ Deze service kan gebruikt worden om een vlakkenkaart van de Nederlandse gemeente
 
 ## Hoe te beginnen
 
-Kaarten kunnen opgevraagd worden met GET-requests of met POST-requests met content-type `application/json`. Als de enige parameters key/waarde paren zijn kunnen ze ofwel in de requeststring ondergebracht worden (GET-request) ofwel in een JSON document in de body van een POST request. Voor paramters met meer structuur is een POST-request met JSON requestbody aan te raden. Parameters in de requeststring kunnen gecombineerd worden met een JSON requestbody in een POST-request. Als dezelfde paramters zowel in de requeststring als in een JSON document voorkomen hebben de parameters in de reqeuststring voorrang.
+Kaarten kunnen opgevraagd worden met GET-requests of met POST-requests met content-type `application/json`. Als de enige parameters key/waarde paren zijn kunnen ze ofwel in de requeststring ondergebracht worden (GET-request) ofwel in een JSON document in de body van een POST request. Voor parameters met meer structuur is een POST-request met JSON requestbody aan te raden. Parameters in de requeststring kunnen gecombineerd worden met een JSON requestbody in een POST-request. Als dezelfde parameters zowel in de requeststring als in een JSON document voorkomen hebben de parameters in de reqeuststring voorrang.
 
 ### GET-requests
 
