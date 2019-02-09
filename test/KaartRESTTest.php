@@ -212,16 +212,20 @@ class KaartRESTTest extends TestCase
         $this->assertEquals($expected, $actual, "check file " . KAART_TESTDIRECTORY . "/$filename");
     }
 
+    /**
+     * @throws ImagickException
+     */
     public function testBase64Map()
     {
-        $filename = substr(__FUNCTION__, 4) . '.txt';
+        $filename = substr(__FUNCTION__, 4) . '.png';
+        $reference_image = KAART_REFERENCE_IMAGES_DIR . '/' . $filename;
         $url = $this->_base_url . '?type=dialectareas&format=png&width=300&base64=1';
         curl_setopt($this->_ch, CURLOPT_URL, $url);
         curl_setopt($this->_ch, CURLOPT_HTTPGET, 1);
         $kaart = curl_exec($this->_ch);
-        $expected = '1d0d834affab5c073d0411bf15bd8e0b';
-        $actual = md5($this->saveFile($filename, $kaart));
-        $this->assertEquals($expected, $actual, "check file " . KAART_TESTDIRECTORY . "/$filename");
+        $this->saveFile($filename, base64_decode($kaart));
+        $result = $this->compareTwoImages(KAART_TESTDIRECTORY . '/' . $filename, $reference_image);
+        $this->assertEquals(0, $result, "check file $filename");
     }
 
     public function testXSSAttack()
