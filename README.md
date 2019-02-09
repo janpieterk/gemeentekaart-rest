@@ -4,23 +4,31 @@ ___
 
 This is the REST service to [janpieterk/gemeentekaart-core](https://github.com/janpieterk/gemeentekaart-core)
 
-## Getting Started
-
-
-To install as a project in ```<DIRECTORYNAME>```, using composer:
+## How to install
 
 * Make sure you have a web server running with PHP support
 
+To install with composer:
+
 ```
 $ cd <YOUR WEBROOT>
-$ composer create-project janpieterk/gemeentekaart-rest <DIRECTORYNAME> --repository='{"type":"vcs","url":"https://github.com/janpieterk/gemeentekaart-rest"}' --stability=dev
+$ composer create-project janpieterk/gemeentekaart-rest --repository='{"type":"vcs","url":"https://github.com/janpieterk/gemeentekaart-rest"}' --stability=dev
 ```
 
-* Now visit ```http://<YOUR WEBHOST>/<DIRECTORYNAME>``` to view the documentation and access the REST service.
+To install with git and composer:
+
+```
+$ cd <YOUR WEBROOT>
+$ git clone https://github.com/janpieterk/gemeentekaart-rest.git
+$ cd gemeentekaart-rest
+$ composer install
+```
+
+* Now visit `http://<YOUR WEBHOST>/gemeentekaart-rest` to view the documentation and access the REST service.
 
 ## Summary
 
-This service can be used to create a choropleth map of either the municipalities of The Netherlands (borders as of 2007, 443 municipalities), the municipalities of Flanders (308 municipalities), the municipalities of The Netherlands and Flanders combined, the 40 COROP areas of The Netherlands, the twelve provinces of The Netherlands, or the 28 dialect areas of Daan/Blok (1969) mapped on municipality borders. Areas can be assigned colors, typically to denote the relative frequency of some phenomenon. Some predefined combinations are also possible, at the moment: municipalities with COROP areas, municipalities with provinces, municipalities with dialect areas. 
+This service can be used to create a choropleth map of either the municipalities of The Netherlands (borders as of 2007, 443 municipalities),the municipalities of Flanders (308 municipalities), the forty [COROP](https://en.wikipedia.org/wiki/COROP) regions of the Netherlands, the twelve [provinces](https://en.wikipedia.org/wiki/Provinces_of_the_Netherlands) of the Netherlands, or the twenty-eight [dialect areas](https://nl.wikipedia.org/wiki/Jo_Daan#/media/File:Dutch-dialects.svg) of Daan/Blok (1969) mapped on municipality borders . Areas can be assigned colors, typically to denote the relative frequency of some phenomenon. Some predefined combinations are also possible, at the moment: municipalities with COROP areas, municipalities with provinces, municipalities with dialect areas. 
 
 
 ## Getting started
@@ -33,11 +41,11 @@ JSON document, the parameters from the request string have precedence over the o
 
 ### GET requests
 
-Map of the municipalities, default size and format: ```http://<RESTURL>/?type=municipalities```
+Map of the municipalities, default size and format: `http://<RESTURL>/?type=municipalities`
 
-Map of the COROP areas, default size and format:  ```http://<RESTURL>/?type=corop```
+Map of the COROP areas, default size and format:  `http://<RESTURL>/?type=corop`
 
-Map of the municipalities combined with the COROP areas: ```http://<RESTURL>/?type=municipalities&additionaldata=corop```
+Map of the municipalities combined with the COROP areas: `http://<RESTURL>/?type=municipalities&additionaldata=corop`
 
 #### JSON POST requests
 
@@ -87,7 +95,7 @@ An alternative way to get data into the Kaart service is to upload a commma-sepa
 ### `additionaldata`
 **string**
 
-Used to add an additional layer of data to a map. Currently only the combinations `type=municipalities&additionaldata=corop` and `type=municipalities&additionaldata=provinces`  are possible.
+Used to add an additional layer of data to a map. Currently only the combinations `type=municipalities&additionaldata=corop`, `type=municipalities&additionaldata=provinces` and `type=municipalities&additionaldata=dialectareas`  are possible.
 
 --- 
 ### `base64`
@@ -99,7 +107,7 @@ If this parameter is set to `1`, `on`, `true` or `yes`, a base64-encoded string 
 ### `data`
 **array, object or string**
 
-a list of area codes with either highlight colors or an object containing outline, fill and strokewidth. Should generally be used in a POSTed JSON document, however simple lists can be appended to the GET string. Examples (see also above) List of highlighted municipalities:
+a list of area codes with either highlight colors or an object containing outline, fill and strokewidth. Use in a JSON document. Examples: List of highlighted municipalities:
 ```json
 { 
     "g_0432" : "#FFE680", 
@@ -135,7 +143,7 @@ height in pixels of the map. It is generally not a good idea to set the height e
 ### `imagemap`
 **boolean**
 
-If this parameter is set to `1`, `on`, `true` or `yes`, a list of HTML `<area>` elements instead of a map image is returned. Can be used to create clickable bitmap maps. Note: for maps of type municipalities, imagemap results in a complete imagemap for all municipalities only if:
+If this parameter is set to `1`, `on`, `true` or `yes`, a list of HTML `<area>` elements instead of a map image is returned. Can be used to create clickable bitmap maps. `imagemap` results in a complete imagemap for all areas only if:
 
 1. there are no `links` or `tooltips` set;
 2. there are `links` or `tooltips se`t and `interactive` is set to true;
@@ -147,13 +155,13 @@ In other cases you get a partial imagemap with only the areas set in links or to
 ### `interactive`
 **boolean**
 
-If this parameter is set to `1`, `on`, `true` or `yes`, for SVG maps, onmouseover and onmouseout events to show placenames, and for bitmaps maps, area elements with title and alt attributes with placenames are added to all placemarks or areas. 
+If this parameter is set to `1`, `on`, `true` or `yes`, for SVG maps, onmouseover and onmouseout events to show area naes, and for bitmaps maps, `<area>` elements with title and alt attributes with placenames are added to all areas (to be requested with `imagemap`). 
 
 ---
 ### `link`
 **string**
 
-Template for a link to be added to area codes. `%s` placeholders will be replaced by either the area code. For maps of a bitmap format, the links will be added to the imagemap of the picture, for maps of format SVG or KML they will be embedded in the XML. Example: `?type=municipalities&format=svg&link=http%3A%2F%2Fwww.example.com%2F%3Fcode%3D%25s` (link = urlencoded form of `http://www.example.com/?code=%s`) Applies to all areas unless the parameter `linkhighlightedonly` is set to true. 
+Template for a link to be added to all areas. `%s` placeholders will be replaced by the area code. For maps of a bitmap format, the links will be added to the imagemap of the picture, for maps of format SVG or KML they will be embedded in the XML. Example: `?type=municipalities&format=svg&link=http%3A%2F%2Fwww.example.com%2F%3Fcode%3D%25s` (link = urlencoded form of `http://www.example.com/?code=%s`) Applies to all areas unless the parameter `linkhighlightedonly` is set to true. 
 
 ---
 ### `linkhighlightedonly`
@@ -232,7 +240,7 @@ Optional title of the map, will be displayed in-picture above the map.
 ### `type`
 **string**
 
-one of the choropleth types. See `posslbletypes`
+Ene of the choropleth types. See `possibletypes`.
 
 ---
 ### `width`
@@ -241,6 +249,10 @@ one of the choropleth types. See `posslbletypes`
 width in pixels of the map. Overrides the default.
 
 ---
+
+## References
+J. Daan and D.P. Blok (1969). _Van randstad tot landrand. Toelichting bij de kaart: dialecten en naamkunde. Bijdragen en mededelingen der Dialectencommissie van de Koninklijke Nederlandse Akademie van Wetenschappen te Amsterdam 37_, Amsterdam, N.V. Noord-Hollandsche uitgevers maatschappij.
+
 ## Acknowledgments
 
 * This project is a derivative work of part of the code from the [Meertens Kaart module](http://www.meertens.knaw.nl/kaart/downloads.html).
