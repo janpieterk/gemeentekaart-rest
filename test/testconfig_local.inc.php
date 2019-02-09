@@ -19,7 +19,10 @@
 //  with this program; if not, write to the Free Software Foundation, Inc.,
 //  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-define('KAART_TESTDIRECTORY', __DIR__ . '/tmp');
+// Change this to the hostname of the web server running the gemeentekaaart-rest REST service
 define('KAART_SERVER_HOSTNAME', 'localhost');
+
+// Leave these alone
+define('KAART_TESTDIRECTORY', __DIR__ . '/tmp');
 define('KAART_SERVER_PATH', '/' . basename(dirname(__DIR__)) . '/');
 define('KAART_REFERENCE_IMAGES_DIR', __DIR__ . '/reference_images');

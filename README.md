@@ -26,6 +26,10 @@ $ composer install
 
 * Now visit `http://<YOUR WEBHOST>/gemeentekaart-rest` to view the documentation and access the REST service.
 
+Running the PHPUnit tests for gemeentekaart-rest:
+
+* edit the file [testconfig.local.inc.php](test/testconfig_local.inc.php) and change the constant `KAART_SERVER_HOSTNAME` to the hostname of the web server running the gemeentekaaart-rest REST service. Then run the shell script `test/run_tests.sh`.
+
 ## Summary
 
 This service can be used to create a choropleth map of either the municipalities of The Netherlands (borders as of 2007, 443 municipalities),the municipalities of Flanders (308 municipalities), the forty [COROP](https://en.wikipedia.org/wiki/COROP) regions of the Netherlands, the twelve [provinces](https://en.wikipedia.org/wiki/Provinces_of_the_Netherlands) of the Netherlands, or the twenty-eight [dialect areas](https://nl.wikipedia.org/wiki/Jo_Daan#/media/File:Dutch-dialects.svg) of Daan/Blok (1969) mapped on municipality borders . Areas can be assigned colors, typically to denote the relative frequency of some phenomenon. Some predefined combinations are also possible, at the moment: municipalities with COROP areas, municipalities with provinces, municipalities with dialect areas. 

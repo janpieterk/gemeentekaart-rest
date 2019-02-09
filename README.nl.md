@@ -26,6 +26,10 @@ $ composer install
 
 * Ga nu naar `http://<YOUR WEBHOST>/gemeentekaart-rest` om de documentatie te bekijken en de REST service te benaderen.
 
+De PHPUnit tests van gemeentekaart-rest laten lopen:
+
+* edit de file [testconfig.local.inc.php](test/testconfig_local.inc.php) en verander de constante `KAART_SERVER_HOSTNAME` in de hostnaam van de webserver waarop de gemeentekaart-rest REST-service draait. Start dan het shellscript `test/run_tests.sh`.
+
 ## Samenvatting
 
 Deze service kan gebruikt worden om een vlakkenkaart van de Nederlandse gemeentes te maken (gemeentegrenzen van 2007, 443 gemeentes), de gemeentes van Vlaanderen (308 gemeentes), de gemeentes van Nederland en Vlaanderen gecombineerd,  de veertig Nederlandse [COROPgebieden](https://nl.wikipedia.org/wiki/COROP), de twaalf Nederlandse [provincies](https://nl.wikipedia.org/wiki/Provincies_van_Nederland), of de 28 [dialectgebieden](https://nl.wikipedia.org/wiki/Jo_Daan#/media/File:Dutch-dialects.svg) uit Daan/Blok (1969) afgebeeld op gemeentegrenzen. Gemeentes kunnen ingekleurd worden. Een gebruikelijke use case is om hiermee de relatieve dichtheid van een of ander verschijnsel aan te geven. Een aantal voorgedefinieerde combinaties is ook mogelijk, op het moment: gemeentes met COROPgebieden, gemeentes met provincies, gemeentes met dialectgebieden. 
