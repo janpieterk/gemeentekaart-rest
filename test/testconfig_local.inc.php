@@ -26,3 +26,15 @@ define('KAART_SERVER_HOSTNAME', 'localhost');
 define('KAART_TESTDIRECTORY', __DIR__ . '/tmp');
 define('KAART_SERVER_PATH', '/' . basename(dirname(__DIR__)) . '/');
 define('KAART_REFERENCE_IMAGES_DIR', __DIR__ . '/reference_images');
+
+
+// curl_file_create for PHP < 5.5
+// see http://www.php.net/curl_file_create
+if (!function_exists('curl_file_create')) {
+    function curl_file_create($filename, $mimetype = '', $postname = '')
+    {
+        return "@$filename;filename="
+          . ($postname ?: basename($filename))
+          . ($mimetype ? ";type=$mimetype" : '');
+    }
+}
