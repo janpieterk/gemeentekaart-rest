@@ -145,7 +145,7 @@ Colors can be the name of a color (one of the 140 HTML colors), a hexadecimal re
 ### `height`
 **integer**
 
-height in pixels of the map. It is generally not a good idea to set the height explicitly, it is better to set the width and let the map calculate its own height. 
+Height in pixels of the map. It is generally not a good idea to set the height explicitly, it is better to set the width and let the map calculate its own height. 
 
 ---
 ### `imagemap`
@@ -224,7 +224,7 @@ If this parameter is set to `1`, `on`, `true` or `yes`, a list (in JSON format) 
 ### `target`
 **string**
 
-optional target for the link given in the `link` parameter (see above). Value of the "target" attribute of the href element. 
+Optional target for the link given in the `link` parameter (see above). Value of the "target" attribute of the href element. 
 
 ---
 ### `tooltips`
@@ -248,13 +248,13 @@ Optional title of the map, will be displayed in-picture above the map.
 ### `type`
 **string**
 
-Ene of the choropleth types. See `possibletypes`.
+One of the choropleth types. See `possibletypes`.
 
 ---
 ### `width`
 **string**
 
-width in pixels of the map. Overrides the default.
+Width in pixels of the map. Overrides the default.
 
 ---
 
