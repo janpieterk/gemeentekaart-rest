@@ -8,15 +8,19 @@ This is the REST service to [janpieterk/gemeentekaart-core](https://github.com/j
 
 * Make sure you have a web server running with PHP support
 
-To install with composer:
-
+To install from github with composer:
 ```
 $ cd <YOUR WEBROOT>
 $ composer create-project janpieterk/gemeentekaart-rest --repository='{"type":"vcs","url":"https://github.com/janpieterk/gemeentekaart-rest"}' --stability=dev
 ```
 
-To install with git and composer:
+To install from  [packagist.org](https://packagist.org) with composer:
+```
+$ cd <YOUR WEBROOT>
+$ composer create-project janpieterk/gemeentekaart-rest --stability=dev
+```
 
+To install with git and composer:
 ```
 $ cd <YOUR WEBROOT>
 $ git clone https://github.com/janpieterk/gemeentekaart-rest.git
