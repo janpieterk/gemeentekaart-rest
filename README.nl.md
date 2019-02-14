@@ -45,7 +45,6 @@ Kaarten kunnen opgevraagd worden met GET-requests of met POST-requests met conte
 ### GET-requests
 
 Kaart van de gemeentes, default format en grootte: `http://<RESTURL>/?type=municipalities`
-
 Kaart van de COROPgebieden, default format en grootte:  `http://<RESTURL>/?type=corop`
 Kaart van de gemeente gecombineerd met de COROPgebieden: `http://<RESTURL>/?type=municipalities&additionaldata=corop`
 
