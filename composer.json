@@ -1,5 +1,6 @@
 {
   "name": "janpieterk/gemeentekaart-rest",
+  "type": "project",
   "description": "REST interface to janpieterk/gemeentekaart-core",
   "license": "GPL-2.0-only",
   "authors": [
