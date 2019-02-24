@@ -9,19 +9,19 @@ Dit is de REST service voor [janpieterk/gemeentekaart-core](https://github.com/j
 * Zorg dat je een webserver met PHP-ondersteuning hebt draaien
 
 Installeren vanuit github met composer:
-```
+```bash
 $ cd <YOUR WEBROOT>
-$ composer create-project janpieterk/gemeentekaart-rest --repository='{"type":"vcs","url":"https://github.com/janpieterk/gemeentekaart-rest"}' --stability=dev
+$ composer create-project janpieterk/gemeentekaart-rest --repository='{"type":"vcs","url":"https://github.com/janpieterk/gemeentekaart-rest"}'
 ```
 
 Installeren vanuit [packagist.org](https://packagist.org) met composer:
-```
+```bash
 $ cd <YOUR WEBROOT>
-$ composer create-project janpieterk/gemeentekaart-rest --stability=dev
+$ composer create-project janpieterk/gemeentekaart-rest
 ```
 
 Installeren met git en composer:
-```
+```bash
 $ cd <YOUR WEBROOT>
 $ git clone https://github.com/janpieterk/gemeentekaart-rest.git
 $ cd gemeentekaart-rest
