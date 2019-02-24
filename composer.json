@@ -15,7 +15,7 @@
   ],
   "homepage": "https://github.com/janpieterk/gemeentekaart-rest",
   "require": {
-    "janpieterk/gemeentekaart-core": "1.0.0",
+    "janpieterk/gemeentekaart-core": "1.0.1",
     "php": ">=5.3.10",
     "ext-curl": "*",
     "ext-json": "*",
