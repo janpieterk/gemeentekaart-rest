@@ -44,6 +44,10 @@ if (empty($parameters)) {
     exit;
 }
 
+if (! isset($parameters['type'])) {
+    $parameters['type'] = 'gemeentes';
+}
+
 if (isset($parameters['possibletypes'])) {
     $data = json_encode(Kaart::getAllowedMaptypes());
     header('Content-type: application/json');
@@ -58,11 +62,14 @@ if (isset($parameters['possibleformats'])) {
     exit;
 }
 
+if (isset($parameters['possibleyears'])) {
+    $data = json_encode(Kaart::getAllowedYears($parameters['type']));
+    header('Content-type: application/json');
+    echo $data;
+    exit;
+}
+
 if (isset($parameters['possiblemunicipalities']) || isset($parameters['possibleareas'])) {
-    /** @var $kaart Kaart */
-    if (isset($parameters['possiblemunicipalities']) && !isset($parameters['type'])) {
-        $parameters['type'] = 'gemeentes';
-    }
     if (isset($parameters['year'])) {
         try {
             $kaart = new Kaart($parameters['type'], $parameters['year']);
@@ -73,11 +80,7 @@ if (isset($parameters['possiblemunicipalities']) || isset($parameters['possiblea
     } else {
         $kaart = new Kaart($parameters['type']);
     }
-    if (isset($parameters['possiblemunicipalities'])) {
-        $possibleareas = $kaart->getPossibleMunicipalities();
-    } else {
-        $possibleareas = $kaart->getPossibleAreas();
-    }
+    $possibleareas = $kaart->getPossibleAreas();
     if (is_null($possibleareas)) {
         $possibleareas = array();
     }
@@ -86,7 +89,6 @@ if (isset($parameters['possiblemunicipalities']) || isset($parameters['possiblea
     echo $data;
     exit;
 }
-
 
 if (isset($parameters['pathsfile'])) {
     if (stream_resolve_include_path(REST_COORDS_DIR.'/'.$parameters['pathsfile'])

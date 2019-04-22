@@ -4,5 +4,19 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PARENTDIR="${DIR}/.."
 
-${PARENTDIR}/vendor/bin/phpunit --bootstrap ${PARENTDIR}/vendor/autoload.php ${DIR}/KaartRESTTest.php
+# ${PARENTDIR}/vendor/bin/phpunit --bootstrap ${PARENTDIR}/vendor/autoload.php ${DIR}/KaartRESTTest.php
+
+if [[ "$1" ]]
+  then
+    FILTER=$1
+fi
+
+COMM="${PARENTDIR}/vendor/bin/phpunit --bootstrap ${PARENTDIR}/vendor/autoload.php --include-path ${PARENTDIR}"
+if [[ $FILTER ]]
+  then
+    COMM="$COMM --filter $FILTER"
+fi
+COMM="$COMM ${DIR}/KaartRESTTest.php"
+
+eval $COMM
 

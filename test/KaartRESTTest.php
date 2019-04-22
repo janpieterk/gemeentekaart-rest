@@ -48,7 +48,7 @@ class KaartRESTTest extends TestCase
         return file_get_contents(KAART_TESTDIRECTORY . '/' . $filename);
     }
 
-    private function _setupJSONRequest($url, $file)
+    private function setupJSONRequest($url, $file)
     {
         curl_setopt($this->_ch, CURLOPT_URL, $url);
         curl_setopt($this->_ch, CURLOPT_POST, 1);
@@ -60,7 +60,7 @@ class KaartRESTTest extends TestCase
         );
         curl_setopt($this->_ch, CURLOPT_POSTFIELDS, $json);
     }
-
+    
     /**
      * @param $actual
      * @param $expected
@@ -110,7 +110,7 @@ class KaartRESTTest extends TestCase
         $filename = substr(__FUNCTION__, 4) . '.png';
         $reference_image = KAART_REFERENCE_IMAGES_DIR . '/' . $filename;
         $url = $this->_base_url . '?type=gemeentes&format=png&width=500';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/simplemunicipalitieslist.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/simplemunicipalitieslist.json');
         $kaart = curl_exec($this->_ch);
         $this->saveFile($filename, $kaart);
         $result = $this->compareTwoImages(KAART_TESTDIRECTORY . '/' . $filename, $reference_image);
@@ -121,7 +121,7 @@ class KaartRESTTest extends TestCase
     {
         $filename = substr(__FUNCTION__, 4) . '.html';
         $url = $this->_base_url . '?type=gemeentes&format=png&imagemap=1';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/complexmunicipalitieslist.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/complexmunicipalitieslist.json');
         $kaart = curl_exec($this->_ch);
         $expected = '6c2781d32fb598c119827127c2ddd48f';
         $actual = md5($this->saveFile($filename, $kaart));
@@ -132,7 +132,7 @@ class KaartRESTTest extends TestCase
     {
         $filename = substr(__FUNCTION__, 4) . '.html';
         $url = $this->_base_url . '?type=gemeentes&format=png&imagemap=1&interactive=1';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/complexmunicipalitieslist.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/complexmunicipalitieslist.json');
         $kaart = curl_exec($this->_ch);
         $expected = 'b8b9c8579e25181dd589cb35a649be41';
         $actual = md5($this->saveFile($filename, $kaart));
@@ -144,7 +144,7 @@ class KaartRESTTest extends TestCase
     {
         $filename = substr(__FUNCTION__, 4) . '.html';
         $url = $this->_base_url . '?type=gemeentes&format=png&imagemap=1&linkhighlightedonly=1';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/complexmunicipalitieslist_link.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/complexmunicipalitieslist_link.json');
         $kaart = curl_exec($this->_ch);
         $expected = '2d2aabf64ed159d4b89c2bcff3971224';
         file_put_contents(KAART_TESTDIRECTORY . '/' . $filename, $kaart);
@@ -157,7 +157,7 @@ class KaartRESTTest extends TestCase
     {
         $filename = substr(__FUNCTION__, 4) . '.svg';
         $url = $this->_base_url . '?type=gemeentes&format=svg&&linkhighlightedonly=1';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/complexmunicipalitieslist_link.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/complexmunicipalitieslist_link.json');
         $kaart = curl_exec($this->_ch);
         $expected = 'a4a35e230d9239e75ce2cf5f5402b77f';
         $actual = md5($this->saveFile($filename, $kaart));
@@ -169,7 +169,7 @@ class KaartRESTTest extends TestCase
     {
         $filename = substr(__FUNCTION__, 4) . '.html';
         $url = $this->_base_url . '?type=gemeentes&format=png&imagemap=1';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/tooltips.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/tooltips.json');
         $kaart = curl_exec($this->_ch);
         $expected = '331e4fd98195255973978b91ecc6a5d2';
         $actual = md5($this->saveFile($filename, $kaart));
@@ -183,7 +183,7 @@ class KaartRESTTest extends TestCase
         curl_setopt($this->_ch, CURLOPT_URL, $url);
         curl_setopt($this->_ch, CURLOPT_HTTPGET, 1);
         $kaart = curl_exec($this->_ch);
-        $expected = 'bad92608fc2aab9824ab3f17d30c6a74';
+        $expected = '84f867931815112aed2cbf2064cae597';
         $actual = md5($this->saveFile($filename, $kaart));
         $this->assertEquals($expected, $actual, "check file " . KAART_TESTDIRECTORY . "/$filename");
     }
@@ -192,7 +192,7 @@ class KaartRESTTest extends TestCase
     {
         $filename = substr(__FUNCTION__, 4) . '.html';
         $url = $this->_base_url . '?type=gemeentes&format=png&imagemap=1';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/simplemunicipalitieslist.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/simplemunicipalitieslist.json');
         $kaart = curl_exec($this->_ch);
         $expected = 'e502b3ef7811040dca72a4b352498827';
         $actual = md5($this->saveFile($filename, $kaart));
@@ -268,6 +268,17 @@ class KaartRESTTest extends TestCase
         $page = curl_exec($this->_ch);
         $this->assertStringStartsWith('HTTP/1.1 400 Bad Request', $page);
     }
+    
+    public function testGetPossibleAreasWithYear()
+    {
+        $filename = substr(__FUNCTION__, 4) . '.json';
+        $reference_image = KAART_REFERENCE_IMAGES_DIR . '/' . $filename;
+        $url = $this->_base_url . '?possibleareas=1&type=gemeentes&year=1933';
+        curl_setopt($this->_ch, CURLOPT_URL, $url);
+        curl_setopt($this->_ch, CURLOPT_HTTPGET, 1);
+        $result = curl_exec($this->_ch);
+        $this->assertEquals($result, file_get_contents($reference_image));
+    }
 
     /**
      * @throws ImagickException
@@ -326,7 +337,7 @@ class KaartRESTTest extends TestCase
         $filename = substr(__FUNCTION__, 4) . '.png';
         $reference_image = KAART_REFERENCE_IMAGES_DIR . '/' . $filename;
         $url = $this->_base_url . '?type=corop&format=png&width=500';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/simplecoroplist.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/simplecoroplist.json');
         $kaart = curl_exec($this->_ch);
         $this->saveFile($filename, $kaart);
         $result = $this->compareTwoImages(KAART_TESTDIRECTORY . '/' . $filename, $reference_image);
@@ -341,7 +352,7 @@ class KaartRESTTest extends TestCase
         $filename = substr(__FUNCTION__, 4) . '.png';
         $reference_image = KAART_REFERENCE_IMAGES_DIR . '/' . $filename;
         $url = $this->_base_url . '?type=municipalities_nl_flanders&format=png';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/simplemunicipalitieslist_nl_flanders.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/simplemunicipalitieslist_nl_flanders.json');
         $kaart = curl_exec($this->_ch);
         $this->saveFile($filename, $kaart);
         $result = $this->compareTwoImages(KAART_TESTDIRECTORY . '/' . $filename, $reference_image);
@@ -356,7 +367,7 @@ class KaartRESTTest extends TestCase
         $filename = substr(__FUNCTION__, 4) . '.png';
         $reference_image = KAART_REFERENCE_IMAGES_DIR . '/' . $filename;
         $url = $this->_base_url . '?type=gemeentes&format=png&width=600&additionaldata=corop';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/data_vragenlijsten.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/data_vragenlijsten.json');
         $kaart = curl_exec($this->_ch);
         $this->saveFile($filename, $kaart);
         $result = $this->compareTwoImages(KAART_TESTDIRECTORY . '/' . $filename, $reference_image);
@@ -371,7 +382,7 @@ class KaartRESTTest extends TestCase
         $filename = substr(__FUNCTION__, 4) . '.png';
         $reference_image = KAART_REFERENCE_IMAGES_DIR . '/' . $filename;
         $url = $this->_base_url . '?type=gemeentes&format=png&width=600&additionaldata=provincies';
-        $this->_setupJSONRequest($url, __DIR__ . '/data/data_outlined_provincie.json');
+        $this->setupJSONRequest($url, __DIR__ . '/data/data_outlined_provincie.json');
         $kaart = curl_exec($this->_ch);
         $this->saveFile($filename, $kaart);
         $result = $this->compareTwoImages(KAART_TESTDIRECTORY . '/' . $filename, $reference_image);
@@ -408,7 +419,7 @@ class KaartRESTTest extends TestCase
         curl_setopt($this->_ch, CURLOPT_URL, $url);
         curl_setopt($this->_ch, CURLOPT_HTTPGET, 1);
         $kaart = curl_exec($this->_ch);
-        $expected = '13dc2041eeefacf92cbfdbff6b5510f9';
+        $expected = '086dcbec637a100340d088877f2e4841';
         $actual = md5($this->saveFile($filename, $kaart));
         $this->assertEquals($expected, $actual, "check file " . KAART_TESTDIRECTORY . "/$filename");
     }
@@ -434,4 +445,13 @@ class KaartRESTTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
+        public function testGetPossibleYears()
+    {
+        $url = $this->_base_url . '?type=provincies&possibleyears=1';
+        curl_setopt($this->_ch, CURLOPT_URL, $url);
+        curl_setopt($this->_ch, CURLOPT_HTTPGET, 1);
+        $actual = curl_exec($this->_ch);
+        $expected = '[1830,1860,1890,1920,1940,1950,1980]';
+        $this->assertEquals($expected, $actual);
+    }
 }
