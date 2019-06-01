@@ -4,12 +4,12 @@
 
 <h2>Summary</h2>
 
-<p>This service can be used to create a choropleth map of either the municipalities of The Netherlands (borders as of
+<p>This service can be used to create a choropleth map of either the municipalities of The Netherlands (default: borders as of
     2007, 443 municipalities), the
     municipalities of Flanders (308 municipalities), the municipalities of The Netherlands and Flanders combined, the 40
     COROP areas of The Netherlands (see <a
-            href="http://nl.wikipedia.org/w/index.php?title=COROP&oldid=31809700">COROP</a> (Dutch) or <a
-            href="http://en.wikipedia.org/w/index.php?title=COROP&oldid=482861432">COROP</a> (English)), the twelve
+        href="http://nl.wikipedia.org/w/index.php?title=COROP&oldid=31809700">COROP</a> (Dutch) or <a
+        href="http://en.wikipedia.org/w/index.php?title=COROP&oldid=482861432">COROP</a> (English)), the twelve
     provinces
     of The Netherlands, or the 28 dialect areas of Daan/Blok (1969) mapped on municipality borders. Areas can be
     assigned colors, typically to denote the relative frequency of some phenomenon.
@@ -24,67 +24,71 @@
     JSON
     document, the parameters from the request string have precedence over the ones in the request body.</p>
 
+<h3>New in version 1.1</h3>
+<p>
+    Since version 1.1 the historical municipality and province borders fron the data set <cite><a href="https://doi.org/10.17026/dans-xb9-t677">NLGis shapefiles</a></cite>
+    by Dr. O.W.A. Boonstra are incorporated in the project. Borders from 1812-1997 area available and can be requested by adding a <code>year</code> parameter to the request. Note that no year parameter results in the 2007 maps from version 1.0. Maps from the NLGis data set use <i>Amsterdam codes</i> for municipalities (see Van der Meer &amp; Boonstra 2011) while the version 1.0 maps use CBS codes.
+</p>
+
+
 <h2>Examples</h2>
 <h3>GET requests (clickable)</h3>
-Map of the municipalities, default size and format: <a href="##KAART_URL##?type=municipalities">##KAART_URL##?type=municipalities</a>
-<br/>Map of the COROP areas, default size and format: <a
+<p>
+    Map of the municipalities, default size and format: <a href="##KAART_URL##?type=municipalities">##KAART_URL##?type=municipalities</a>
+    <br/>Map of the COROP areas, default size and format: <a
         href="##KAART_URL##?type=corop">##KAART_URL##?type=corop</a><br/>
-Map of the provinces, default size and format: <a href="##KAART_URL##?type=provinces">##KAART_URL##?type=provinces</a>
-<br/>
-Map of the dialect areas, default size and format: <a href="##KAART_URL##?type=dialectareas">##KAART_URL##?type=dialectareas</a>
-<br/>
-Map of the municipalities combined with the COROP areas: <a
+    Map of the provinces, default size and format: <a href="##KAART_URL##?type=provinces">##KAART_URL##?type=provinces</a>
+    <br/>
+    Map of the dialect areas, default size and format: <a href="##KAART_URL##?type=dialectareas">##KAART_URL##?type=dialectareas</a>
+    <br/>
+    Map of the municipalities combined with the COROP areas: <a
         href="##KAART_URL##?type=municipalities&amp;additionaldata=corop">##KAART_URL##?type=municipalities&amp;additionaldata=corop</a>
-<br/>
-Combined map of Dutch and Flemish municipalities: <a href="##KAART_URL##?type=municipalities_nl_flanders">##KAART_URL##?type=municipalities_nl_flanders</a>
+    <br/>
+    Combined map of Dutch and Flemish municipalities: <a href="##KAART_URL##?type=municipalities_nl_flanders">##KAART_URL##?type=municipalities_nl_flanders</a><br/>
+    Map of the municipalities in 1875: <a href="##KAART_URL##?type=municipalities&amp;year=1875">##KAART_URL##?type=municipalities&amp;year=1875</a><br>
+    List of years for which maps of provinces can be requested: <a href="##KAART_URL##?type=provinces&amp;possibleyears=1">##KAART_URL##?type=provinces&amp;possibleyears=1</a><br>
+    List of municipality codes and names for 1936:  <a href="##KAART_URL##?possiblemunicipalities=1&year=1936">##KAART_URL##?possiblemunicipalities=1&year=1936</a>
 </p>
 <h3>JSON POST requests</h3>
-<p>Content-type should be <b><tt>application/json</tt></b>.</p>
+<p>Content-type should be <b><code>application/json</code></b>.</p>
 
 <p>Map of the Netherlands municipalities borders, with some municipalities highlighted.
     Municipality codes can be obtained by adding <code>possiblemunicipalities=1</code> or <code>possibleareas=1</code>
     to
     the URL.<br/>
     Obtained by POSTing the following JSON document to ##KAART_URL##?type=gemeentes&format=png&width=500:</p>
-<pre><code><span style="color: #000000;">{</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0432"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFE680"</span><span
-        style="color: #000000;">,</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0420"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFDD55"</span><span
-        style="color: #000000;">,</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0448"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFD42A"</span><span
-        style="color: #000000;">,</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0476"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFCC00"</span><span
-        style="color: #000000;">,</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0373"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#D4AA00"</span><span
-        style="color: #000000;">,</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0400"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#AA8800"</span><span
-        style="color: #000000;">,</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0366"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#806600"</span><span
-        style="color: #000000;">,</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0463"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFCC00"</span><span
-        style="color: #000000;">,</span><span style="color: #000000;">
-&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: #0000CC;">"g_0462"</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #000000;">:</span><span
-        style="color: #000000;">&nbsp;</span><span style="color: #FF3399;">"#FFEEAA"</span><span
-        style="color: #000000;">
-</span><span style="color: #000000;">}</span></code></pre>
+
+<pre style="padding: 1em;"><code>
+<span style="color: rgb(20, 20, 20);">{</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0432"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#FFE680"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0420"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#FFDD55"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0448"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#FFD42A"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0476"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#FFCC00"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0373"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#D4AA00"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0400"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#AA8800"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0366"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#806600"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0463"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#FFCC00"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"g_0462"</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#FFEEAA"</span><span style="color: rgb(20, 20, 20);">
+</span><span style="color: rgb(20, 20, 20);">}</span></code></pre>
+
 <p><img src="img/json_example_3.png" alt=""/></p>
+<p>The "four big cities" of the "Randstad" in 1821. Obtained by POSTing the following JSON document to ##KAART_URL##:</p>
+
+<pre style="padding: 1em;"><code>
+<span style="color: rgb(20, 20, 20);">{</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"data"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(20, 20, 20);">{</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"a_11150"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#990000"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"a_10345"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#990000"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"a_11434"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#990000"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"a_10722"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"#990000"</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(20, 20, 20);">}</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"year"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(187, 95, 11);">1821</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"type"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"gemeentes"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"format"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(189, 22, 107);">"svg"</span><span style="color: rgb(20, 20, 20);">,</span><span style="color: rgb(20, 20, 20);">
+&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(56, 79, 244);">"interactive"</span><span style="color: rgb(20, 20, 20);">:</span><span style="color: rgb(20, 20, 20);">&nbsp;</span><span style="color: rgb(56, 79, 244);">true</span><span style="color: rgb(20, 20, 20);">
+</span><span style="color: rgb(20, 20, 20);">}</span></code></pre>
+
+<p><img src="img/svg_example.svg" alt=""/></p>
 <h3>Uploading files with POST requests</h3>
 <p>Content type should be <code>multipart/form-data</code>.</p>
 <p>An alternative way to get data into the Kaart service is to upload a commma-separated file with area codes and
@@ -264,7 +268,7 @@ Combined map of Dutch and Flemish municipalities: <a href="##KAART_URL##?type=mu
             area code. For maps of a bitmap format, the links will be added to the imagemap
             of the
             picture, for maps of format SVG or KML they will be embedded in the XML. Example: <a
-                    href="##KAART_URL##?type=municipalities&format=svg&link=http%3A%2F%2Fwww.example.com%2F%3Fcode%3D%25s">##KAART_URL##?type=municipalities&format=svg&link=http%3A%2F%2Fwww.example.com%2F%3Fcode%3D%25s</a>
+                href="##KAART_URL##?type=municipalities&format=svg&link=http%3A%2F%2Fwww.example.com%2F%3Fcode%3D%25s">##KAART_URL##?type=municipalities&format=svg&link=http%3A%2F%2Fwww.example.com%2F%3Fcode%3D%25s</a>
             (link = urlencoded form of http://www.example.com/?code=%s)
             Applies to all municipalities of a map of type <code>municipalities</code> unless the parameter <code>linkhighlightedonly</code> is set to
             true.
@@ -346,7 +350,13 @@ Combined map of Dutch and Flemish municipalities: <a href="##KAART_URL##?type=mu
         </td>
     </tr>
 
-
+    <tr>
+        <td><code>possibleyears</code></td>
+        <td>boolean</td>
+        <td>If this parameter is set to <code>1</code>, <code>on</code>,
+            <code>true</code> or <code>yes</code>, a list (in JSON format) of possible years for the requested map type is returned. See <a href="##KAART_URL##?type=gemeentes&amp;possibleyears=1">##KAART_URL##?type=gemeentes&amp;possibleyears=1</a>.
+        </td>
+    </tr>
     <tr>
         <td><code>target</code></td>
         <td>string</td>
@@ -387,13 +397,29 @@ Combined map of Dutch and Flemish municipalities: <a href="##KAART_URL##?type=mu
         <td>integer</td>
         <td>width in pixels of the map. Overrides the default.</td>
     </tr>
+        <tr>
+        <td><code>year</code></td>
+        <td>integer</td>
+        <td>desired year for the requested map type.</td>
+    </tr>
+
 </table>
+<h3>Literature</h3>
 <p>
-    <small>Source of the choropleth data of the Netherlands: <a href="http://www.cbs.nl/">CBS</a> and the <i>afdeling
-        Geo-informatie van het Kadaster</i>.<br/>
+    J. Daan and D.P. Blok (1969). <cite>Van randstad tot landrand. Toelichting bij de kaart: dialecten en naamkunde. Bijdragen en mededelingen der Dialectencommissie van de Koninklijke Nederlandse Akademie van Wetenschappen te Amsterdam 37</cite>, Amsterdam, N.V. Noord-Hollandsche uitgevers maatschappij.
+</p>
+<p>
+Meer, Ad van der &amp; Onno Boonstra (2011). <a href="https://dans.knaw.nl/nl/over/organisatie-beleid/publicaties/DANSrepertoriumnederlandsegemeenten2011.pdf">Repertorium van Nederlandse gemeenten vanaf 1812, waaraan toegevoegd: de Amsterdamse code</a>. 2de editie. [Den Haag: DANS.] (DANS Data Guides, 2).
+</p>
+<h3>Acknowledgements</h3>
+<p>
+    <small>Source of the 2007 choropleth data of the Netherlands: <a href="http://www.cbs.nl/">CBS</a> and the <i>afdeling
+            Geo-informatie van het Kadaster</i>.<br/>
         Source of the choropleth data of Flanders: <a href="http://www.openstreetmap.org">OpenStreetMap</a>. This data
         is &copy; OpenStreetMap contributors and licensed under the <a href="http://www.openstreetmap.org/copyright">Open
             Data Commons Open Database License</a>.<br/>
+            Source of the historical municipality borders of the Netherlands: 
+            Dr. O.W.A. Boonstra; (2007): NLGis shapefiles. DANS. <a href="https://doi.org/10.17026/dans-xb9-t677">https://doi.org/10.17026/dans-xb9-t677</a>.<br>
         The REST service uses the <a href="https://github.com/pieterb/REST">REST service PHP library</a> by Pieter van
         Beek.
     </small>
