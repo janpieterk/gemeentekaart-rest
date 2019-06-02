@@ -36,26 +36,15 @@ Running the PHPUnit tests for gemeentekaart-rest:
 
 ## Summary
 
-This service can be used to create a choropleth map of either the municipalities of The Netherlands (borders as of 2007, 443 municipalities),the municipalities of Flanders (308 municipalities), the forty [COROP](https://en.wikipedia.org/wiki/COROP) regions of the Netherlands, the twelve [provinces](https://en.wikipedia.org/wiki/Provinces_of_the_Netherlands) of the Netherlands, or the twenty-eight [dialect areas](https://nl.wikipedia.org/wiki/Jo_Daan#/media/File:Dutch-dialects.svg) of Daan/Blok (1969) mapped on municipality borders . Areas can be assigned colors, typically to denote the relative frequency of some phenomenon. Some predefined combinations are also possible, at the moment: municipalities with COROP areas, municipalities with provinces, municipalities with dialect areas. 
-
-
-This service can be used to create a choropleth map of either the municipalities of The Netherlands (default: borders as of 2007, 443 municipalities), the municipalities of Flanders (308 municipalities), the municipalities of The Netherlands and Flanders combined, the 40
-COROP areas of The Netherlands (see [COROP](http://en.wikipedia.org/w/index.php?title=COROP&oldid=482861432), the twelve provinces of The Netherlands, or the 28 dialect areas of Daan/Blok (1969) mapped on municipality borders. Areas can be assigned colors, typically to denote the relative frequency of some phenomenon. Some predefined combinations are also possible, at the moment: municipalities with COROP areas, municipalities with provinces, municipalities with dialect areas.
-
-Maps can be requested via GET or POST requests. If the only parameters are key-value pairs, they can go either in the request string (GET request) or in a JSON document in the request body (POST request). If there are structured parameters a POST request with a JSON request body is advisable. Request string parameters can be combined with a JSON request body in a POST request. If the same parameters are in the request string and in the JSON document, the parameters from the request string have precedence over the ones in the request body.
+This service can be used to create a choropleth map of either the municipalities of The Netherlands (default: borders as of 2007, 443 municipalities), the municipalities of Flanders (308 municipalities), the municipalities of The Netherlands and Flanders combined, the 40 COROP areas of The Netherlands (see [COROP](http://en.wikipedia.org/w/index.php?title=COROP&oldid=482861432), the twelve provinces of The Netherlands, or the 28 dialect areas of Daan/Blok (1969) mapped on municipality borders. Areas can be assigned colors, typically to denote the relative frequency of some phenomenon. Some predefined combinations are also possible, at the moment: municipalities with COROP areas, municipalities with provinces, municipalities with dialect areas.
 
 ### New in version 1.1
 
-Since version 1.1 the historical municipality and province borders fron the data set [NLGis shapefiles](https://doi.org/10.17026/dans-xb9-t677) by Dr. O.W.A. Boonstra are incorporated in the project. Borders from 1812-1997 area available and can be requested by adding a `yea<` parameter to the request. Note that no year parameter results in the 2007 maps from version 1.0. Maps from the NLGis data set use _Amsterdam codes_ for municipalities (see Van der Meer &amp; Boonstra 2011) while the version 1.0 maps use CBS codes.
-
+Since version 1.1 the historical municipality and province borders fron the data set [NLGis shapefiles](https://doi.org/10.17026/dans-xb9-t677) by Dr. O.W.A. Boonstra are incorporated in the project. Borders from 1812-1997 area available and can be requested by adding a `yea<` parameter to the request. Note that no `year` parameter results in the 2007 maps from version 1.0. Maps from the NLGis data set use _Amsterdam codes_ for municipalities (see Van der Meer &amp; Boonstra 2011) while the version 1.0 maps use CBS codes.
 
 ## Getting started
 
-Maps can be requested via GET requests or POST requests with content-type ```application/json```. If the only parameters are key-value pairs, they can go either in the
-request string (GET request) or in a JSON document in the request body (POST request). If there are structured
-parameters a POST request with a JSON request body is advisable. Request string parameters can be
-combined with a JSON request body in a POST request. If the same parameters are in the request string and in the
-JSON document, the parameters from the request string have precedence over the ones in the request body.
+Maps can be requested via GET requests or POST requests with content-type ```application/json```. If the only parameters are key-value pairs, they can go either in the request string (GET request) or in a JSON document in the request body (POST request). If there are structured parameters a POST request with a JSON request body is advisable. Request string parameters can be combined with a JSON request body in a POST request. If the same parameters are in the request string and in the JSON document, the parameters from the request string have precedence over the ones in the request body.
 
 ### GET requests
 
@@ -67,7 +56,7 @@ Map of the municipalities combined with the COROP areas: `http://<RESTURL>/?type
 
 ### JSON POST requests
 
-POST the following document to the REST service:
+POST the following document (uses CBS codes) to the REST service:
 
 ```json
 {
@@ -90,7 +79,7 @@ POST the following document to the REST service:
 And get this back:
 [map](img/json_example_3.png)
 
-POST the following document to the REST service:
+POST the following document (uses Amsterdam codes) to the REST service:
 
 ```json
 {
@@ -144,7 +133,7 @@ If this parameter is set to `1`, `on`, `true` or `yes`, a base64-encoded string 
 ### `data`
 **array, object or string**
 
-a list of area codes with either highlight colors or an object containing outline, fill and strokewidth. Use in a JSON document. Examples: List of highlighted municipalities:
+a list of area codes with either highlight colors or an object containing outline, fill and strokewidth. Use in a JSON document. Examples: List of highlighted municipalities (CBS codes):
 ```json
 { 
     "g_0432" : "#FFE680", 
@@ -228,7 +217,7 @@ If it is necessary to use a non-standard file with paths in a choropleth map, a 
 ### `possibleareas`
 **boolean**
 
-If this parameter is set to `1`, `on`, `true` or `yes`, a list (in JSON format) of possible areas (area codes plus names) is returned. Note that the `type` parameter should be present also. 
+If this parameter is set to `1`, `on`, `true` or `yes`, a list (in JSON format) of possible areas (area codes plus names) is returned. Note that the `type` parameter should be present also. A `year` parameter is possible for municipalities and provinces, see `possiblemunicipalities` and `possibleyears`.
 
 ---
 ### `possibleformats`
@@ -241,7 +230,7 @@ If this parameter is set to `1`, `on`, `true` or `yes`, a list (in JSON format) 
 ### `possiblemunicipalities`
 **boolean**
 
-If this parameter is set to `1`, `on`, `true` or `yes`, a list (in JSON format) of possible municipalities (municipality codes plus names) is returned. This is a synonym for `possibleareas=1&type=municipalities`. Note that the `type` parameter can be left out. 
+If this parameter is set to `1`, `on`, `true` or `yes`, a list (in JSON format) of possible municipalities (municipality codes plus names) is returned. This is a synonym for `possibleareas=1&type=municipalities`. Note that the `type` parameter can be left out. Note that adding a `year` parameter results in the Amsterdam codes and municipalities for the given year while no '`year` parameter results in the CBS codes for 2007 (version 1.0 behaviour).
 
 ---
 ### `possibletypes`
@@ -295,7 +284,7 @@ Width in pixels of the map. Overrides the default.
 ### `year`
 **integer**
 
-desired year for the requested map type.
+The desired year for the requested map type.
 
 ---
 

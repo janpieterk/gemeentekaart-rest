@@ -38,6 +38,10 @@ De PHPUnit tests van gemeentekaart-rest laten lopen:
 
 Deze service kan gebruikt worden om een vlakkenkaart van de Nederlandse gemeentes te maken (gemeentegrenzen van 2007, 443 gemeentes), de gemeentes van Vlaanderen (308 gemeentes), de gemeentes van Nederland en Vlaanderen gecombineerd,  de veertig Nederlandse [COROPgebieden](https://nl.wikipedia.org/wiki/COROP), de twaalf Nederlandse [provincies](https://nl.wikipedia.org/wiki/Provincies_van_Nederland), of de 28 [dialectgebieden](https://nl.wikipedia.org/wiki/Jo_Daan#/media/File:Dutch-dialects.svg) uit Daan/Blok (1969) afgebeeld op gemeentegrenzen. Gemeentes kunnen ingekleurd worden. Een gebruikelijke use case is om hiermee de relatieve dichtheid van een of ander verschijnsel aan te geven. Een aantal voorgedefinieerde combinaties is ook mogelijk, op het moment: gemeentes met COROPgebieden, gemeentes met provincies, gemeentes met dialectgebieden. 
 
+### Nieuw in versie 1.1
+
+Vanaf versie 1.1 zijn de historische gemeente- en provinciegrenzen uit de dataset [NLGis shapefiles](https://doi.org/10.17026/dans-xb9-t677) door Dr. O.W.A. Boonstra  openomen in het project. Grenzen van 1812 tot en met 1997 zijn beschikbaar en kunnen opgevraagd worden door een `yea<` parameter aan het request toe te voegen. Merk op dat geen `year` parameter resulteert in de grenzen van 2007 van versie 1.0. Kaarten die gemaakt zijn met de  NLGis data set gebruiken _Amsterdamse codes_ voor gemeentes (zie Van der Meer & Boonstra 2011) terwijl de kaarten van versie 1.0 CBS codes gebruiken.
+
 ## Hoe te beginnen
 
 Kaarten kunnen opgevraagd worden met GET-requests of met POST-requests met content-type `application/json`. Als de enige parameters key/waarde paren zijn kunnen ze ofwel in de requeststring ondergebracht worden (GET-request) ofwel in een JSON document in de body van een POST request. Voor parameters met meer structuur is een POST-request met JSON requestbody aan te raden. Parameters in de requeststring kunnen gecombineerd worden met een JSON requestbody in een POST-request. Als dezelfde parameters zowel in de requeststring als in een JSON document voorkomen hebben de parameters in de reqeuststring voorrang.
@@ -45,12 +49,14 @@ Kaarten kunnen opgevraagd worden met GET-requests of met POST-requests met conte
 ### GET-requests
 
 Kaart van de gemeentes, default format en grootte: `http://<RESTURL>/?type=municipalities`
+
 Kaart van de COROPgebieden, default format en grootte:  `http://<RESTURL>/?type=corop`
+
 Kaart van de gemeente gecombineerd met de COROPgebieden: `http://<RESTURL>/?type=municipalities&additionaldata=corop`
 
 #### JSON POST-requests
 
-POST het volgene document naar de REST-service:
+POST het volgende document (gebruikt CBS-codes) naar de REST-service:
 
 ```json
 {
@@ -72,6 +78,25 @@ POST het volgene document naar de REST-service:
 ```
 And krijg dit terug:
 [kaart](img/json_example_3.png)
+
+POST het volgende document (gebruikt Amsterdamse codes) naar de REST-service:
+
+```json
+{
+    "data": {
+        "a_11150": "#990000",
+        "a_10345": "#990000",
+        "a_11434": "#990000",
+        "a_10722": "#990000"
+    },
+    "year": 1821,
+    "type": "gemeentes",
+    "format": "svg",
+    "interactive": true
+}
+```
+En krijg dit terug:
+[map](img/svg_example.svg)
 
 ### Met POST-requests files uploaden
 
@@ -108,7 +133,7 @@ Als deze parameter op `1`, `on`, `true` of `yes` is gezet wordt de kaart terugge
 ### `data`
 **array, object of string**
 
-Een lijst van gebiedscodes, met ofwel enkele kleuren, ofwel een object met omlijning, vulling en lijndikte. Te gebruiken in een JSON-document. Voorbeelden: lijst van ingekleurde gemeentes:
+Een lijst van gebiedscodes, met ofwel enkele kleuren, ofwel een object met omlijning, vulling en lijndikte. Te gebruiken in een JSON-document. Voorbeelden: lijst van ingekleurde gemeentes (CBS-codes):
 ```json
 { 
     "g_0432" : "#FFE680", 
@@ -193,7 +218,7 @@ Als het nodig is om een niet-standaard bestand met paden te gebruiken voor een v
 ### `possibleareas`
 **boolean**
 
-Als deze parameter op `1`, `on`, `true` of `yes` is gezet wordt er een lijst (in JSON-format) teruggegeven met mogelijke gebieden (gebiedscodes plus namen). Merk op dat er ook een `type`-parameter moet zijn.
+Als deze parameter op `1`, `on`, `true` of `yes` is gezet wordt er een lijst (in JSON-format) teruggegeven met mogelijke gebieden (gebiedscodes plus namen). Merk op dat er ook een `type`-parameter moet zijn. Een `year` parameter is mogelijk bij gemeentes en provincies, zie `possiblemunicipalities` en `possibleyears`.
 
 ---
 ### `possibleformats`
@@ -201,19 +226,24 @@ Als deze parameter op `1`, `on`, `true` of `yes` is gezet wordt er een lijst (in
 
 Als deze parameter op `1`, `on`, `true` of `yes` is gezet wordt er een lijst (in JSON-format) teruggegeven met mogelijke formats voor een kaart.
 
-
 ---
 ### `possiblemunicipalities`
 **boolean**
 
-Als deze parameter op `1`, `on`, `true` of `yes` is gezet wordt er een lijst (in JSON-format) teruggegeven met mogelijke gemeentes (gemeentecodes plus namen). Merk op dat de `type`-parameter weggelaten kan worden (is in dit geval impliciet `municipalities`/`gemeentes`.)
- 
+Als deze parameter op `1`, `on`, `true` of `yes` is gezet wordt er een lijst (in JSON-format) teruggegeven met mogelijke gemeentes (gemeentecodes plus namen). Merk op dat de `type`-parameter weggelaten kan worden (is in dit geval impliciet `municipalities`/`gemeentes`.)  Merk op dat toevoegen van een `year` parameter resulteert in in de Amsterdamse codes and gemeentes voor het gegeven jaar terwijl geen '`year` parameter resulteert in de CBS codes van 2007 (gedrag van versie 1.0).
+
 ---
 ### `possibletypes`
 **boolean**
 
 Als deze parameter op `1`, `on`, `true` of `yes` is gezet wordt er een lijst (in JSON-format) teruggegeven met mogelijke kaarttypes voor de `type` parameter.
- 
+
+---
+### `possibleyears`
+**boolean**
+
+If this parameter is set to `1`, `on`, `true` or `yes`, a list (in JSON format) of possible years for the `year` parameter for the given map type is returned.
+
 ---
 ### `target`
 **string**
@@ -252,10 +282,19 @@ Een van de vlakkenkaarttypes. Zie `possibletypes`.
 Breedte in pixels van de kaart. Vervangt de standaardbreedte.
 
 ---
+### `year`
+**integer**
+
+Het gewenste jaar voor het gevraagde kaarttype.
+
+---
 ## Bibliografie
 J. Daan en D.P. Blok (1969). _Van randstad tot landrand. Toelichting bij de kaart: dialecten en naamkunde. Bijdragen en mededelingen der Dialectencommissie van de Koninklijke Nederlandse Akademie van Wetenschappen te Amsterdam 37_, Amsterdam, N.V. Noord-Hollandsche uitgevers maatschappij.
+
+Meer, Ad van der  and Onno Boonstra (2011). _Repertorium van Nederlandse gemeenten vanaf 1812, waaraan toegevoegd: de Amsterdamse code_. 2de editie. [Den Haag: DANS.] (DANS Data Guides, 2). [https://dans.knaw.nl/nl/over/organisatie-beleid/publicaties/DANSrepertoriumnederlandsegemeenten2011.pdf](https://dans.knaw.nl/nl/over/organisatie-beleid/publicaties/DANSrepertoriumnederlandsegemeenten2011.pdf)
 
 ## Dankwoord
 
 * Dit project is een afgeleide van een gedeelte van de code van de [Meertens Kaartmodule](http://www.meertens.knaw.nl/kaart/downloads.html).
 * De REST service gebruikt de [REST service PHP library](https://github.com/pieterb/REST) door Pieter van Beek. 
+* Zie ook het dankwoord bij [janpieterk/gemeentekaart-core](https://github.com/janpieterk/gemeentekaart-core) 
