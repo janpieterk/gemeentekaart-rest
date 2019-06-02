@@ -1,5 +1,4 @@
 <?php
-
 //  Copyright (C) 2006-2008 Meertens Instituut / KNAW
 //  Copyright (C) 2019 Jan Pieter Kunst
 //
@@ -35,13 +34,18 @@ if ($requestparser->error) {
 $parameters = $requestparser->getParameters();
 
 if (empty($parameters)) {
-    $kaart_url
-      = ((isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS'])) ? 'https' : 'http')
-      . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    $kaart_url = ((isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS'])) ? 'https'
+            : 'http')
+        .'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     echo REST::html_start('Kaart REST service documentation');
-    echo str_replace('##KAART_URL##', $kaart_url, file_get_contents('RESTdocumentation.html'));
+    echo str_replace('##KAART_URL##', $kaart_url,
+        file_get_contents('RESTdocumentation.html'));
     echo REST::html_end();
     exit;
+}
+
+if (! isset($parameters['type'])) {
+    $parameters['type'] = 'gemeentes';
 }
 
 if (isset($parameters['possibletypes'])) {
@@ -58,18 +62,25 @@ if (isset($parameters['possibleformats'])) {
     exit;
 }
 
+if (isset($parameters['possibleyears'])) {
+    $data = json_encode(Kaart::getAllowedYears($parameters['type']));
+    header('Content-type: application/json');
+    echo $data;
+    exit;
+}
+
 if (isset($parameters['possiblemunicipalities']) || isset($parameters['possibleareas'])) {
-    /** @var $kaart Kaart */
-    if (isset($parameters['possiblemunicipalities']) && !isset($parameters['type'])) {
-        $kaart = new Kaart('gemeentes');
+    if (isset($parameters['year'])) {
+        try {
+            $kaart = new Kaart($parameters['type'], $parameters['year']);
+        } catch (\InvalidArgumentException $e) {
+            REST::error(400, $e->getMessage());
+            exit;
+        }
     } else {
         $kaart = new Kaart($parameters['type']);
     }
-    if (isset($parameters['possiblemunicipalities'])) {
-        $possibleareas = $kaart->getPossibleMunicipalities();
-    } else {
-        $possibleareas = $kaart->getPossibleAreas();
-    }
+    $possibleareas = $kaart->getPossibleAreas();
     if (is_null($possibleareas)) {
         $possibleareas = array();
     }
@@ -79,15 +90,22 @@ if (isset($parameters['possiblemunicipalities']) || isset($parameters['possiblea
     exit;
 }
 
-
 if (isset($parameters['pathsfile'])) {
-    if (stream_resolve_include_path(REST_COORDS_DIR . '/' . $parameters['pathsfile']) !== FALSE) {
-        $paths_file = REST_COORDS_DIR . '/' . $parameters['pathsfile'];
+    if (stream_resolve_include_path(REST_COORDS_DIR.'/'.$parameters['pathsfile'])
+        !== FALSE) {
+        $paths_file = REST_COORDS_DIR.'/'.$parameters['pathsfile'];
     } else {
         $paths_file = null;
     }
     $kaart = new Kaart($parameters['type']);
     $kaart->setPathsFile($paths_file);
+} elseif (isset($parameters['year'])) {
+    try {
+        $kaart = new Kaart($parameters['type'], $parameters['year']);
+    } catch (\InvalidArgumentException $e) {
+        REST::error(400, $e->getMessage());
+        exit;
+    }
 } else {
     $kaart = new Kaart($parameters['type']);
 }
