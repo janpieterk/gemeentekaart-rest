@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "janpieterk/gemeentekaart-core": "dev-develop",
+        "janpieterk/gemeentekaart-core": "1.1.0",
         "php": ">=5.3.10",
         "ext-curl": "*",
         "ext-json": "*",
